@@ -1,4 +1,7 @@
-FROM python:3.14.0rc1-alpine
+FROM python:3.11-slim
+
+# Créer un utilisateur non-root compatible Debian slim
+RUN groupadd appgroup && useradd -r -g appgroup appuser
 
 WORKDIR /app
 
@@ -7,5 +10,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 3000
+USER appuser
+
 CMD ["python", "app.py"]
